@@ -1,0 +1,237 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "RESTfull API TOKO BARANG",
+    "description": "RESTfull API Mengelola List Barang Menggunakan OpenAPI",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Kelompok 7",
+      "email": "rbgreza27@gmail.com",
+      "url": "https://github.com/22091397006RBGMochFaishalReza/Kelompok_7_API.git"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3306",
+      "description": "Development server",
+      "variables": {
+        "environment": {
+          "default": "development",
+          "description": "server environment",
+          "enum": [
+            "development",
+            "staging",
+            "production"
+          ]
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/toko-barang": {
+      "get": {
+        "tags": ["List Barang"],
+        "summary": "Get all barang",
+        "description": "Get all barang or a specific barang by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "ID of the barang to retrieve",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "3",
+                    "nama_barang": "Boneka Anjing",
+                    "stok": "1000",
+                    "harga": "10000"
+                  },
+                  {
+                    "id": "6",
+                    "nama_barang": "meja",
+                    "stok": "900",
+                    "harga": "123456"
+                  },
+                  {
+                    "id": "10",
+                    "nama_barang": "Celana",
+                    "stok": "70",
+                    "harga": "200000"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["List Barang"],
+        "summary": "Create a new barang",
+        "description": "Create a new barang with the provided data",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BarangInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "1",
+                  "nama_barang": "Barang Baru",
+                  "stok": "50",
+                  "harga": "50000"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/toko-barang/{id}": {
+      "put": {
+        "tags": ["List Barang"],
+        "summary": "Update a barang",
+        "description": "Update a barang with the provided data",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the barang to update",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BarangInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "3",
+                  "nama_barang": "Boneka Anjing",
+                  "stok": "1000",
+                  "harga": "10000"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["List Barang"],
+        "summary": "Delete a barang",
+        "description": "Delete a barang by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the barang to delete",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "status_message": "Barang berhasil dihapus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 404,
+                  "status_message": "Barang tidak ditemukan"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Barang": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the barang (autoincrement)"
+          },
+          "nama_barang": {
+            "type": "string"
+          },
+          "stok": {
+            "type": "integer"
+          },
+          "harga": {
+            "type": "integer"
+          }
+        }
+      },
+      "BarangInput": {
+        "type": "object",
+        "properties": {
+          "nama_barang": {
+            "type": "string"
+          },
+          "stok": {
+            "type": "integer"
+          },
+          "harga": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "nama_barang",
+          "stok",
+          "harga"
+        ]
+      }
+    }
+  }
+}
